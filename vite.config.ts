@@ -6,7 +6,7 @@ export default defineConfig({
 	root: path.resolve(import.meta.dirname, 'src/preview'),
 	publicDir: 'public',
 	build: {
-		emptyOutDir: false,
+		emptyOutDir: true,
 		outDir: path.resolve(import.meta.dirname, 'dist/preview'),
 		rollupOptions: {
 			input: path.resolve(import.meta.dirname, 'src/preview/index.html'),

@@ -80,13 +80,13 @@
 	],
 	"author": "humanbydefinition <hello@textmode.art> (https://code.textmode.art)",
 	"license": "MIT",
-	"homepage": "https://github.com/humanbydefinition/textmode-og#readme",
+	"homepage": "https://github.com/textmode-art/textmode-og#readme",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/humanbydefinition/textmode-og.git"
+		"url": "git+https://github.com/textmode-art/textmode-og.git"
 	},
 	"bugs": {
-		"url": "https://github.com/humanbydefinition/textmode-og/issues"
+		"url": "https://github.com/textmode-art/textmode-og/issues"
 	},
 	"prettier": "@textmode/prettier-config",
 	"commitlint": {
