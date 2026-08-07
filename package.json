@@ -12,6 +12,8 @@
 			"import": "./dist/node/index.js"
 		}
 	},
+	"main": "./dist/node/index.js",
+	"types": "./dist/node/index.d.ts",
 	"files": [
 		"dist",
 		"README.md",
@@ -30,7 +32,7 @@
 		"build": "npm run build:preview && npm run build:node",
 		"check": "npm run check:format && npm run lint && npm run check:types && npm run test && npm run test:browser && npm run check:pack",
 		"check:format": "prettier --check .",
-		"check:pack": "node scripts/pack-smoke.mjs",
+		"check:pack": "publint && attw --pack --ignore-rules cjs-resolves-to-esm",
 		"check:types": "tsc --noEmit -p tsconfig.json",
 		"format": "prettier --write .",
 		"install-browser": "tsx src/node/cli.ts install-browser",
@@ -46,7 +48,9 @@
 		"playwright": "1.61.1"
 	},
 	"devDependencies": {
+		"@arethetypeswrong/cli": "^0.18.5",
 		"@commitlint/cli": "^21.2.1",
+		"@playwright/test": "1.61.1",
 		"@textmode/commitlint-config": "^0.1.1",
 		"@textmode/eslint-config": "^0.2.0",
 		"@textmode/prettier-config": "^0.1.0",
@@ -54,10 +58,10 @@
 		"@textmode/tooling-scripts": "^0.3.9",
 		"@textmode/tsconfig": "^0.1.0",
 		"@types/node": "^24.10.1",
-		"@playwright/test": "1.61.1",
 		"@vitest/coverage-v8": "^4.1.10",
 		"eslint": "^10.6.0",
 		"prettier": "^3.9.4",
+		"publint": "^0.3.23",
 		"semantic-release": "^25.0.5",
 		"textmode.export.js": "^1.5.2",
 		"textmode.figlet.js": "^1.0.2",
