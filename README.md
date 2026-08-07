@@ -9,7 +9,7 @@
 
 </div>
 
-`@textmode/og` is an Open Graph image generator for the [textmode.js](https://github.com/humanbydefinition/textmode.js) ecosystem. It renders deterministic 1200×630 images from [editor.textmode.art](https://editor.textmode.art/) sketches through a CLI or a Node interface.
+`@textmode/og` is an [Open Graph](https://ogp.me/) image generator for the [textmode.js](https://github.com/humanbydefinition/textmode.js) ecosystem. It renders deterministic 1200×630 images from [editor.textmode.art](https://editor.textmode.art/) sketches through a CLI or a Node interface.
 
 Input sketches use the editor runtime directly: `t`, silent `audio`, synth helpers, and the editor add-ons are injected, so a sketch must not call `textmode.create()`. The package provides the gallery and main editor layouts, deterministic frame capture, local sketch assets, PNG validation, and atomic output writes.
 
