@@ -79,7 +79,7 @@
 		"cli"
 	],
 	"author": "humanbydefinition <hello@textmode.art> (https://code.textmode.art)",
-	"license": "MIT",
+	"license": "AGPL-3.0",
 	"homepage": "https://github.com/textmode-art/textmode-og#readme",
 	"repository": {
 		"type": "git",
