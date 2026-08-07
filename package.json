@@ -84,13 +84,13 @@
 	],
 	"author": "humanbydefinition <hello@textmode.art> (https://code.textmode.art)",
 	"license": "AGPL-3.0",
-	"homepage": "https://github.com/textmode-art/textmode-og#readme",
+	"homepage": "https://github.com/textmode-art/og#readme",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/textmode-art/textmode-og.git"
+		"url": "git+https://github.com/textmode-art/og.git"
 	},
 	"bugs": {
-		"url": "https://github.com/textmode-art/textmode-og/issues"
+		"url": "https://github.com/textmode-art/og/issues"
 	},
 	"prettier": "@textmode/prettier-config",
 	"commitlint": {
