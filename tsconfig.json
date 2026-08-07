@@ -1,13 +1,9 @@
 {
-	"extends": "@textmode/tsconfig/base.json",
+	"extends": "@textmode/tsconfig/browser-library.json",
 	"compilerOptions": {
-		"allowJs": false,
-		"declaration": true,
 		"lib": ["ES2024", "DOM", "DOM.Iterable"],
-		"module": "ESNext",
-		"moduleResolution": "Bundler",
-		"noEmit": true,
-		"types": ["node", "vitest/globals"]
+		"types": ["node", "vitest/globals"],
+		"noEmit": true
 	},
 	"include": ["src", "tests", "vite.config.ts", "vitest.config.ts", "playwright.config.ts"]
 }
