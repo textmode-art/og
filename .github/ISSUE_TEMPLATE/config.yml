@@ -1,0 +1,17 @@
+blank_issues_enabled: true
+contact_links:
+    - name: Contribution guide
+      url: https://code.textmode.art/docs/contributing/code
+      about: Read the shared workflow before proposing or implementing a change.
+    - name: Documentation
+      url: https://code.textmode.art/
+      about: Start with the textmode.js guides and examples before opening a usage question.
+    - name: Web editor
+      url: https://editor.textmode.art/
+      about: Create and share a minimal reproduction using the official textmode.js libraries.
+    - name: textmode.js core repository
+      url: https://github.com/humanbydefinition/textmode.js/issues
+      about: Report problems reproducible without this generator in the textmode.js core repository.
+    - name: Discord
+      url: https://discord.gg/sjrw8QXNks
+      about: Ask usage questions or sanity-check ideas before filing an issue.
