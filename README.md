@@ -13,15 +13,24 @@
 
 Input sketches use the editor runtime directly: `t`, silent `audio`, synth helpers, and the editor add-ons are injected, so a sketch must not call `textmode.create()`. The package provides the gallery and main editor layouts, deterministic frame capture, local sketch assets, PNG validation, and atomic output writes.
 
-## Install
+## Features
+
+- **CLI and Node interface** - Gallery and main editor layouts through one command or `generateOgImages()`
+- **Deterministic frame capture** - Render any frame from 1 to 1000 for stable, repeatable output
+- **Local sketch assets** - Relative images, fonts, video, and data resolve against the sketch directory
+- **Atomic output writes** - Each PNG is validated and renamed into place; a failed job preserves an existing destination image
+- **Branding overrides** - Swap the logo and label text without touching the fixed layout geometry
+- **Secure execution** - Sketches run in isolated browser contexts without Node access
+
+## Installation
 
 ```bash
 npm install --save-dev @textmode/og
 npx textmode-og install-browser
 ```
 
-Chromium is installed only when requested. Package installation does not
-download a browser.
+Requires Node.js 24 or newer. Chromium is installed only when requested.
+Package installation does not download a browser.
 
 ## CLI
 
@@ -126,4 +135,4 @@ you trust to access the network.
 
 ## License
 
-MIT
+`@textmode/og` is licensed under the [MIT License](./LICENSE).
