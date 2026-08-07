@@ -1,12 +1,17 @@
 # @textmode/og
 
-Generate 1200×630 Open Graph images from
-[editor.textmode.art](https://editor.textmode.art/) sketches. Input sketches
-use the editor runtime directly—`t`, silent `audio`, synth helpers, and the
-editor add-ons are injected, so the sketch must not call `textmode.create()`.
+<div align="center">
 
-The package provides the gallery and main editor layouts, deterministic frame
-capture, local sketch assets, PNG validation, and atomic output writes.
+<img alt="@textmode/og: generate Open Graph images from textmode sketches" src=".github/assets/readme-og.png" />
+
+| [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/) [![Node.js](https://img.shields.io/badge/Node.js-339933?logo=nodedotjs&logoColor=white)](https://nodejs.org/) [![Playwright](https://img.shields.io/badge/Playwright-2EAD33?logo=playwright&logoColor=white)](https://playwright.dev/) | [![docs](https://img.shields.io/badge/docs-vitepress-646cff?logo=vitepress&logoColor=white)](https://code.textmode.art/) [![Discord](https://img.shields.io/discord/1357070706181017691?color=5865F2&label=Discord&logo=discord&logoColor=white)](https://discord.gg/sjrw8QXNks) | [![ko-fi](https://shields.io/badge/ko--fi-donate-ff5f5f?logo=ko-fi)](https://ko-fi.com/V7V8JG2FY) [![GitHub-sponsors](https://img.shields.io/badge/sponsor-30363D?logo=GitHub-Sponsors&logoColor=#EA4AAA)](https://github.com/sponsors/humanbydefinition) |
+| :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+
+</div>
+
+`@textmode/og` is an Open Graph image generator for the [textmode.js](https://github.com/humanbydefinition/textmode.js) ecosystem. It renders deterministic 1200×630 images from [editor.textmode.art](https://editor.textmode.art/) sketches through a CLI or a Node interface.
+
+Input sketches use the editor runtime directly: `t`, silent `audio`, synth helpers, and the editor add-ons are injected, so a sketch must not call `textmode.create()`. The package provides the gallery and main editor layouts, deterministic frame capture, local sketch assets, PNG validation, and atomic output writes.
 
 ## Install
 
