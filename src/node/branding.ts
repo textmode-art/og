@@ -71,7 +71,10 @@ export async function readBrandingConfig(configPath: string): Promise<OgBranding
 	if (!value || typeof value !== 'object' || Array.isArray(value)) {
 		throw new Error(`Branding JSON must contain an object: ${absolutePath}`);
 	}
-	const overrides = value as OgBrandingOverrides;
+	const raw = value as Record<string, unknown>;
+	const overrides = (
+		typeof raw.branding === 'object' && raw.branding !== null && !Array.isArray(raw.branding) ? raw.branding : raw
+	) as OgBrandingOverrides;
 	if (overrides.logoPath !== undefined) {
 		overrides.logoPath = path.resolve(path.dirname(absolutePath), overrides.logoPath);
 	}

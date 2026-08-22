@@ -7,7 +7,7 @@ import {
 	FigletPlugin,
 	TextmodeFigFont,
 } from 'textmode.figlet.js';
-import { FiltersPlugin, createFiltersPlugin } from 'textmode.filters.js';
+import { FiltersPlugin, TextmodeFilterManager } from 'textmode.filters.js';
 import {
 	EASING_FUNCTIONS,
 	SynthPlugin,
@@ -134,7 +134,7 @@ export async function renderSketchAtFrame(
 			FiltersPlugin,
 			ExportPlugin,
 			FigletPlugin,
-			createFiltersPlugin,
+			TextmodeFilterManager,
 			SynthSource,
 			TextmodeFigFont,
 			FigFontParser,
@@ -266,7 +266,7 @@ function createSafeTextmodeRuntime(instance: Textmodifier, onError: (error: unkn
 					return Promise.resolve();
 				};
 			}
-			if (property === 'draw' || property === 'postDraw' || property === 'finalDraw') {
+			if (property === 'draw' || property === 'postDraw') {
 				return (callback: () => void) => target[property](wrapCallback(callback));
 			}
 			if (property === 'layers') return wrapLayers(target.layers);
