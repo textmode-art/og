@@ -1,55 +1,73 @@
-import type { OgPreviewRequest, OgPreviewResult } from '../shared/contracts';
-import { mountDarkenLayer } from './darken-layer';
-import { mountGalleryOverlay } from './gallery-overlay';
-import { mountMainOverlay } from './main-overlay';
-import { renderSketchAtFrame, type RenderedSketch } from './sketch-runtime';
+import type { PreviewOutcome, PreviewRenderRequest } from '../shared/preview-protocol';
+import { PREVIEW_PROTOCOL_VERSION, isPreviewRenderRequest } from '../shared/preview-protocol';
+import { renderLayout, type RenderedLayout } from './layout-renderer';
+import { renderSketchAtFrame, type RenderedSketch } from './editor-sketch-runtime';
 
 declare global {
 	interface Window {
-		renderOg(request: OgPreviewRequest): Promise<OgPreviewResult>;
+		renderOg(request: PreviewRenderRequest): Promise<PreviewOutcome>;
 	}
 }
 
+let renderUsed = false;
+
 window.renderOg = async (request) => {
+	if (renderUsed || !isPreviewRenderRequest(request)) {
+		return failure('INVALID_REQUEST', 'Preview endpoint accepts one valid request per browser context.');
+	}
+	renderUsed = true;
 	document.body.dataset.status = 'running';
 	delete document.body.dataset.error;
-	document.querySelectorAll('canvas, #og-overlay, #og-darken').forEach((element) => element.remove());
 
 	let renderedSketch: RenderedSketch | undefined;
-	const markError = (error: unknown): void => {
-		const normalized = error instanceof Error ? error : new Error(String(error));
-		document.body.dataset.status = 'error';
-		document.body.dataset.error = normalized.message;
-	};
-
+	let renderedLayout: RenderedLayout | undefined;
 	try {
-		renderedSketch = await renderSketchAtFrame(request.code, request.frame, markError);
-		mountDarkenLayer(request.darken);
-		const overlay =
-			request.layout.kind === 'gallery'
-				? mountGalleryOverlay(request.layout, request.branding)
-				: mountMainOverlay(request.branding);
-
-		await document.fonts.ready;
-		const descriptionLines = overlay.fit();
-		await nextPaint();
-		overlay.assert();
+		try {
+			renderedSketch = await renderSketchAtFrame(request.code, request.frame, markDiagnostic);
+		} catch (error) {
+			return failure('SKETCH_FAILED', messageOf(error));
+		}
+		try {
+			renderedLayout = await renderLayout(request.layout, request.branding, request.darken);
+		} catch (error) {
+			renderedSketch.dispose();
+			return failure('LAYOUT_FAILED', messageOf(error));
+		}
 
 		document.body.dataset.status = 'ready';
-		window.addEventListener('pagehide', renderedSketch.dispose, { once: true });
+		const dispose = (): void => {
+			renderedLayout?.dispose();
+			renderedSketch?.dispose();
+		};
+		window.addEventListener('pagehide', dispose, { once: true });
 		return {
-			frame: renderedSketch.frame,
-			seconds: renderedSketch.seconds,
-			descriptionLines,
-			layout: request.layout.kind,
+			protocolVersion: PREVIEW_PROTOCOL_VERSION,
+			ok: true,
+			metadata: {
+				frame: renderedSketch.frame,
+				seconds: renderedSketch.seconds,
+				descriptionLines: renderedLayout.descriptionLines,
+				layout: renderedLayout.layout,
+			},
 		};
 	} catch (error) {
-		markError(error);
+		renderedLayout?.dispose();
 		renderedSketch?.dispose();
-		throw error;
+		return failure('LAYOUT_FAILED', messageOf(error));
 	}
 };
 
-function nextPaint(): Promise<void> {
-	return new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
+function failure(code: 'INVALID_REQUEST' | 'SKETCH_FAILED' | 'LAYOUT_FAILED', message: string): PreviewOutcome {
+	document.body.dataset.status = 'error';
+	document.body.dataset.error = message;
+	return { protocolVersion: PREVIEW_PROTOCOL_VERSION, ok: false, error: { code, message } };
+}
+
+function markDiagnostic(error: unknown): void {
+	document.body.dataset.status = 'error';
+	document.body.dataset.error = messageOf(error);
+}
+
+function messageOf(error: unknown): string {
+	return error instanceof Error ? error.message : String(error);
 }
