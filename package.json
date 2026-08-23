@@ -1,6 +1,6 @@
 {
 	"name": "@textmode/og",
-	"version": "0.1.0",
+	"version": "1.0.0",
 	"description": "Generate Open Graph images from editor.textmode.art sketches",
 	"type": "module",
 	"bin": {
