@@ -1,4 +1,5 @@
-import { escapeMarkup, OG_HEIGHT, OG_WIDTH, type ResolvedOgBranding } from '../shared/contracts';
+import { OG_HEIGHT, OG_WIDTH, type ResolvedOgBranding } from '../shared/public-contracts';
+import { escapeMarkup } from './markup';
 import { SVG_NAMESPACE, fitOpposingSvgText, getFittedFontSize, getSvgText, mountSvgLogo } from './svg-text';
 
 const SAFE_INSET = 48;

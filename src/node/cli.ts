@@ -13,7 +13,7 @@ import {
 	MIN_OG_FRAME,
 	type OgImageJob,
 	type OgSketchSource,
-} from '../shared/contracts.js';
+} from '../shared/public-contracts.js';
 import { readBrandingConfig } from './branding.js';
 import { generateOgImages } from './generator.js';
 

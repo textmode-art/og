@@ -69,30 +69,6 @@ export interface OgImageResult {
 }
 
 export interface ResolvedOgBranding {
-	logoSvg: string;
-	labels: OgBrandingLabels;
-}
-
-export interface OgPreviewRequest {
-	code: string;
-	frame: number;
-	darken: number;
-	layout: OgLayout;
-	branding: ResolvedOgBranding;
-}
-
-export interface OgPreviewResult {
-	frame: number;
-	seconds: number;
-	descriptionLines: number;
-	layout: OgLayout['kind'];
-}
-
-export function escapeMarkup(value: string): string {
-	return value
-		.replaceAll('&', '&amp;')
-		.replaceAll('<', '&lt;')
-		.replaceAll('>', '&gt;')
-		.replaceAll('"', '&quot;')
-		.replaceAll("'", '&apos;');
+	readonly logoSvg: string;
+	readonly labels: Readonly<OgBrandingLabels>;
 }

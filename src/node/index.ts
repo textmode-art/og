@@ -8,7 +8,7 @@ export {
 	OG_DEFAULTS,
 	OG_HEIGHT,
 	OG_WIDTH,
-} from '../shared/contracts.js';
+} from '../shared/public-contracts.js';
 export type {
 	GenerateOgImagesOptions,
 	GalleryOgLayout,
@@ -19,4 +19,4 @@ export type {
 	OgImageResult,
 	OgLayout,
 	OgSketchSource,
-} from '../shared/contracts.js';
+} from '../shared/public-contracts.js';

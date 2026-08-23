@@ -7,7 +7,7 @@ import {
 	FigletPlugin,
 	TextmodeFigFont,
 } from 'textmode.figlet.js';
-import { FiltersPlugin, createFiltersPlugin } from 'textmode.filters.js';
+import { FiltersPlugin, TextmodeFilterManager } from 'textmode.filters.js';
 import {
 	EASING_FUNCTIONS,
 	SynthPlugin,
@@ -34,7 +34,7 @@ import {
 	type TextmodeLayerManager,
 	type TextmodePlugin,
 } from 'textmode.js';
-import { OG_HEIGHT, OG_WIDTH } from '../shared/contracts';
+import { OG_HEIGHT, OG_WIDTH } from '../shared/public-contracts';
 
 export interface RenderedSketch {
 	frame: number;
@@ -134,7 +134,7 @@ export async function renderSketchAtFrame(
 			FiltersPlugin,
 			ExportPlugin,
 			FigletPlugin,
-			createFiltersPlugin,
+			TextmodeFilterManager,
 			SynthSource,
 			TextmodeFigFont,
 			FigFontParser,
@@ -142,7 +142,6 @@ export async function renderSketchAtFrame(
 			FigSmushRules,
 			FIGFONT_REQUIRED_CODEPOINTS,
 			EASING_FUNCTIONS,
-			setGlobalErrorCallback,
 		};
 
 		const keys = Object.keys(globals);
@@ -266,7 +265,7 @@ function createSafeTextmodeRuntime(instance: Textmodifier, onError: (error: unkn
 					return Promise.resolve();
 				};
 			}
-			if (property === 'draw' || property === 'postDraw' || property === 'finalDraw') {
+			if (property === 'draw' || property === 'postDraw') {
 				return (callback: () => void) => target[property](wrapCallback(callback));
 			}
 			if (property === 'layers') return wrapLayers(target.layers);

@@ -1,10 +1,10 @@
 {
-	"extends": "./tsconfig.json",
+	"extends": "./tsconfig.node.json",
 	"compilerOptions": {
 		"noEmit": false,
+		"allowImportingTsExtensions": false,
 		"outDir": "./dist",
 		"rootDir": "./src",
-		"allowImportingTsExtensions": false,
 		"declaration": true,
 		"declarationMap": true,
 		"sourceMap": true,

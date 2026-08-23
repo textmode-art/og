@@ -6,6 +6,6 @@ export default defineConfig({
 			provider: 'v8',
 			reporter: ['text', 'json', 'html'],
 		},
-		include: ['tests/unit/**/*.test.ts'],
+		include: ['tests/unit/**/*.test.ts', 'tests/integration/**/*.test.ts'],
 	},
 });

@@ -3,6 +3,9 @@ import path from 'node:path';
 import { expect, test } from '@playwright/test';
 import LZString from 'lz-string';
 import { generateOgImages } from '../../src/node/index';
+import { generateOgImagesWithRenderer } from '../../src/node/generator';
+import { PlaywrightPreviewRenderer } from '../../src/node/preview-renderer';
+import { expectPngsVisuallyEquivalent } from '../harness/png-assertions';
 
 const fixtures = path.resolve(import.meta.dirname, '../fixtures');
 const GPU_SNAPSHOT_TOLERANCE = { maxDiffPixelRatio: 0.06, threshold: 0.2 };
@@ -119,6 +122,42 @@ test('supports local assets, share URLs, inline code, and custom branding', asyn
 	).rejects.toThrow(/branding labels cannot fit|cannot fit within the fixed OG layout/);
 });
 
+test('keeps equivalent file, inline, and editor-share sources deterministic', async ({}, testInfo) => {
+	const code = await readFile(path.join(fixtures, 'deterministic-sketch.js'), 'utf8');
+	const encoded = LZString.compressToEncodedURIComponent(
+		JSON.stringify({ v: 1, createdAt: 0, engines: { textmode: code } })
+	);
+	const outputs = ['file', 'code', 'share'].map((name) => testInfo.outputPath(`${name}-equivalent.png`));
+	await generateOgImages({
+		jobs: [
+			{
+				id: 'file',
+				source: { kind: 'file', path: path.join(fixtures, 'deterministic-sketch.js') },
+				outputPath: outputs[0]!,
+				frame: 1,
+				layout: { kind: 'main' },
+			},
+			{
+				id: 'code',
+				source: { kind: 'code', code },
+				outputPath: outputs[1]!,
+				frame: 1,
+				layout: { kind: 'main' },
+			},
+			{
+				id: 'share',
+				source: { kind: 'editor-share-url', url: `https://editor.textmode.art/#share=${encoded}` },
+				outputPath: outputs[2]!,
+				frame: 1,
+				layout: { kind: 'main' },
+			},
+		],
+	});
+	const [file, inline, share] = await Promise.all(outputs.map((output) => readFile(output)));
+	expectPngsVisuallyEquivalent(file!, inline!);
+	expectPngsVisuallyEquivalent(file!, share!);
+});
+
 test('reports the failing stage and preserves the previous output', async ({}, testInfo) => {
 	const outputPath = testInfo.outputPath('preserved.png');
 	const before = Buffer.from('existing output');
@@ -140,4 +179,24 @@ test('reports the failing stage and preserves the previous output', async ({}, t
 
 	expect((await readFile(outputPath)).equals(before)).toBe(true);
 	expect((await readdir(path.dirname(outputPath))).some((name) => name.endsWith('.tmp.png'))).toBe(false);
+});
+
+test('enforces a host-owned deadline for a synchronous infinite loop', async ({}, testInfo) => {
+	const startedAt = Date.now();
+	await expect(
+		generateOgImagesWithRenderer(
+			{
+				jobs: [
+					{
+						id: 'hanging-sketch',
+						source: { kind: 'file', path: path.join(fixtures, 'hanging-sketch.js') },
+						outputPath: testInfo.outputPath('hanging.png'),
+						layout: { kind: 'main' },
+					},
+				],
+			},
+			() => new PlaywrightPreviewRenderer({ renderTimeoutMs: 250 })
+		)
+	).rejects.toMatchObject({ code: 'RENDER_TIMEOUT', stage: 'render', jobId: 'hanging-sketch' });
+	expect(Date.now() - startedAt).toBeLessThan(5_000);
 });
