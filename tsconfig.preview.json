@@ -1,0 +1,9 @@
+{
+	"extends": "@textmode/tsconfig/browser-library.json",
+	"compilerOptions": {
+		"lib": ["ES2024", "DOM", "DOM.Iterable"],
+		"types": [],
+		"noEmit": true
+	},
+	"include": ["src/preview/**/*.ts", "src/shared/public-contracts.ts", "src/shared/preview-protocol.ts"]
+}
