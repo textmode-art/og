@@ -135,4 +135,4 @@ you trust to access the network.
 
 ## License
 
-`@textmode/og` is licensed under the [AGPL-3.0 License](./LICENSE).
+`@textmode/og` is licensed under the [AGPL-3.0-or-later License](./LICENSE).
