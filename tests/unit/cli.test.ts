@@ -1,5 +1,6 @@
+import { existsSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { parseCliCommand, parseSketchSource } from '../../src/node/cli';
+import { parseCliCommand, parseSketchSource, resolvePlaywrightCli } from '../../src/node/cli';
 
 describe('textmode-og CLI', () => {
 	it('parses gallery and main renders', () => {
@@ -37,6 +38,12 @@ describe('textmode-og CLI', () => {
 		expect(parseCliCommand([])).toEqual({ kind: 'root', help: true, version: false });
 		expect(parseCliCommand(['--version'])).toEqual({ kind: 'root', help: false, version: true });
 		expect(parseCliCommand(['install-browser'])).toEqual({ kind: 'install-browser', help: false });
+	});
+
+	it('resolves the internal Playwright CLI path', () => {
+		const cliPath = resolvePlaywrightCli();
+		expect(cliPath.endsWith('cli.js')).toBe(true);
+		expect(existsSync(cliPath)).toBe(true);
 	});
 
 	it('rejects invalid command combinations and ranges', () => {

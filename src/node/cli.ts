@@ -207,9 +207,14 @@ function parseIntegerOption(
 	return parsed;
 }
 
-async function installBrowser(): Promise<void> {
+export function resolvePlaywrightCli(): string {
 	const require = createRequire(import.meta.url);
-	const playwrightCli = require.resolve('playwright/cli');
+	const packageJsonPath = require.resolve('playwright/package.json');
+	return path.resolve(path.dirname(packageJsonPath), 'cli.js');
+}
+
+async function installBrowser(): Promise<void> {
+	const playwrightCli = resolvePlaywrightCli();
 	const child = spawn(process.execPath, [playwrightCli, 'install', 'chromium', '--no-shell'], {
 		stdio: 'inherit',
 	});
