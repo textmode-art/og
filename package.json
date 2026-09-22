@@ -52,22 +52,22 @@
 	},
 	"dependencies": {
 		"lz-string": "^1.5.0",
-		"playwright": "^1.62.1"
+		"playwright": "^1.63.0"
 	},
 	"devDependencies": {
-		"@playwright/test": "^1.62.1",
-		"@textmode/build": "^0.1.1",
+		"@playwright/test": "^1.63.0",
+		"@textmode/build": "^0.1.2",
 		"@textmode/lint": "^0.1.2",
 		"@textmode/release": "^0.2.1",
 		"@textmode/tsconfig": "^0.2.2",
-		"@types/node": "^26.2.0",
+		"@types/node": "^26.6.2",
 		"textmode.export.js": "^1.8.0",
 		"textmode.figlet.js": "^1.0.5",
 		"textmode.filters.js": "^1.2.5",
 		"textmode.js": "^0.18.0",
 		"textmode.synth.js": "^1.8.2",
 		"typescript": "^6.0.3",
-		"vitest": "^4.1.10"
+		"vitest": "^5.0.1"
 	},
 	"keywords": [
 		"textmode",
