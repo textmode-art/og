@@ -177,6 +177,7 @@ export async function renderSketchAtFrame(
 			throw new Error(`Preview rendered frame ${instance.frameCount}; expected ${requestedFrame}.`);
 		}
 		instance.noLoop();
+		await finishCanvas(instance.canvas);
 
 		return {
 			frame: instance.frameCount,
@@ -285,6 +286,13 @@ function getFrameSeconds(instance: Textmodifier): number {
 	const targetFrameRate = instance.targetFrameRate();
 	const framesPerSecond = typeof targetFrameRate === 'number' && targetFrameRate > 0 ? targetFrameRate : 60;
 	return Math.max(0, instance.frameCount - 1) / framesPerSecond;
+}
+
+async function finishCanvas(canvas: HTMLCanvasElement): Promise<void> {
+	const gl = canvas.getContext('webgl2');
+	if (!gl) return;
+	gl.finish();
+	await new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
 }
 
 async function waitFor(predicate: () => boolean, timeoutMs: number): Promise<void> {
